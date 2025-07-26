@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Random Page Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f9fa;
+      padding: 0px;
+      margin: 0px;
+    }
+      
+      .heading{
+          font-size: 16px;
+          color: Red;
+          background-color: yellow ;
+      }
+    button {
+      padding: 5px 5px;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 1px;
+      color: blue;
+    }
+    iframe {
+      width: 100%;
+      height:100%;
+      border: 2px solid #444;
+      border-radius: px;
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    #progressBar {
+      width: 80%;
+      height: 20px;
+      background-color: #ddd;
+      border-radius: 10px;
+      margin: 10px auto;
+    }
+    #progress {
+      height: 100%;
+      background-color: #4caf50;
+      border-radius: 10px;
+      width: 0%;
+    }
+    #title {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    ul { list-style: none; padding: 0; }
+  </style>
+</head>
+<body>
+    <div class="heading">
+        <h1 class="">Sreekhodi Cricket tournament auction 2026</h1>
+    </div>
+
+  <button onclick="loadRandomPage()"> Draw Now</button>
+  <button onclick="resetPages()">🔁 Reset</button>
+<!--  <button onclick="toggleAuto()">⏄1¤7 Auto Mode</button>
+
+  <!-- <div id="title">Page: None</div>
+
+ <!-- <div id="progressBar"><div id="progress"></div></div> -->
+
+    <!-- <div id="history">
+   <!- <h3>📜 Previously Viewed Pages:</h3>
+    <ul id="viewedList"></ul>
+  </div> -->
+
+  <iframe id="pageFrame" src=""></iframe>
+
+  <script>
+    const pages = [
+      "All-profile/abir/index.html",
+      "All-profile/arzul/index.html",
+      "All-profile/Bondhon/index.html",
+      "All-profile/Tuhin/index.html",
+      "All-profile/Dipu/index.html",
+      "All-profile/Zibon/index.html",
+      "All-profile/Akash/index.html",
+      "All-profile/Biddut/index.html",
+      "All-profile/Manna/index.html",
+      "All-profile/Robin/index.html",
+    ];
+
+    let shownPages = new Set(JSON.parse(localStorage.getItem("shownPages") || "[]"));
+    const viewedList = document.getElementById("viewedList");
+    const progress = document.getElementById("progress");
+    const titleDiv = document.getElementById("title");
+    let autoMode = false;
+    let autoTimer;
+
+    function updateProgress() {
+      const percent = (shownPages.size / pages.length) * 100;
+      progress.style.width = percent + "%";
+    }
+
+    function updateViewedList() {
+      viewedList.innerHTML = "";
+      shownPages.forEach(page => {
+        const li = document.createElement("li");
+        li.textContent = page;
+        viewedList.appendChild(li);
+      });
+    }
+
+    function loadRandomPage() {
+      if (shownPages.size === pages.length) {
+        alert("সব পেজই একবা঄1¤7 করৄ1¤7 দেখা হয়েছৄ1¤7!");
+        return;
+      }
+
+      let randomPage;
+      do {
+        randomPage = pages[Math.floor(Math.random() * pages.length)];
+      } while (shownPages.has(randomPage));
+
+      shownPages.add(randomPage);
+      localStorage.setItem("shownPages", JSON.stringify(Array.from(shownPages)));
+      document.getElementById("pageFrame").style.opacity = 0;
+      setTimeout(() => {
+        document.getElementById("pageFrame").src = randomPage;
+        document.getElementById("pageFrame").onload = () => {
+          document.getElementById("pageFrame").style.opacity = 1;
+        };
+      }, 200);
+      titleDiv.textContent = "Page: " + randomPage;
+      updateProgress();
+      updateViewedList();
+    }
+
+    function resetPages() {
+      shownPages.clear();
+      localStorage.removeItem("shownPages");
+      updateProgress();
+      updateViewedList();
+      titleDiv.textContent = "Page: None";
+      document.getElementById("pageFrame").src = "";
+    }
+
+    function toggleAuto() {
+      autoMode = !autoMode;
+      if (autoMode) {
+        autoTimer = setInterval(loadRandomPage, 8000);
+        alert("Auto Mode চালু হয়েছৄ1¤7 (ৄ1¤7 সেকেন্঄1¤7 পরপর)ॄ1¤7");
+      } else {
+        clearInterval(autoTimer);
+        alert("Auto Mode বন্ধ কর঄1¤7 হয়েছে।");
+      }
+    }
+
+    // Load initial state
+    updateProgress();
+    updateViewedList();
+  </script>
+
+</body>
+</html>
